@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Audio Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .navbar {
+            background-color: #3566e8;
+            color: white;
+        }
+        
+        .navbar-brand, .nav-link {
+            color: white;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .upload-area {
+            background-color: white;
+            border: 2px dashed #d0d0d0;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .upload-area h3 {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .upload-btn {
+            background-color: #3566e8;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 20px;
+            border: none;
+        }
+        
+        .feature-section {
+            margin-top: 40px;
+        }
+        
+        .feature-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e8f0fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .feature-content {
+            flex: 1;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .grid-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .grid-item i {
+            font-size: 24px;
+            color: #3566e8;
+            margin-bottom: 10px;
+        }
+        
+        .grid-item p {
+            font-size: 12px;
+            margin-bottom: 0;
+        }
+        
+        .accent-blue {
+            color: #3566e8;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: #3566e8;
+        }
+        
+        .result-box {
+            background-color: #e8f0fe;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .processing-animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3566e8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .active-screen {
+            display: block;
+        }
+        
+        .analysis-table {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .analysis-table th {
+            background-color: #3566e8;
+            color: white;
+        }
+        
+        .analysis-table .highlight {
+            background-color: #ffecb3;
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .small-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #666;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand logo" href="#">
+                <i class="fas fa-shield-alt me-2"></i> DFK
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <button class="btn btn-light btn-sm">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Screen 1: Upload -->
+        <div id="uploadScreen" class="screen active-screen">
+            <div class="upload-area">
+                <h3>Detect deep fake audio</h3>
+                <input type="file" id="fileInput" accept="audio/*" />
+                <button id="uploadBtn" class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    Upload Audio
+                </button>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="feature-box">
+                        <h5>Detect deep fake audio easily in seconds</h5>
+                        <div class="small-label">Upload audio</div>
+                        <p>Select the audio file to see if it's real or fake. Our system can detect AI-generated or manipulated audio.</p>
+                        
+                        <div class="d-flex align-items-center mb-3 mt-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-check accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0">The most advanced technology to identify artificial voice patterns and inconsistencies typically not present in real human speech.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon">
+                                <i class="fas fa-check accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0">Fast analysis with detailed reports showing confidence scores and specific markers that indicate manipulation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-check accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0">Export detailed reports for documentation, legal proceedings, or further investigation of suspicious content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="feature-box">
+                        <h5>Analyze audio at one place</h5>
+                        
+                        <div class="d-flex align-items-center mb-3 mt-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-microphone accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Frequency Analysis:</strong> Our system examines the frequency patterns in audio to identify unnatural transitions or artifacts common in synthetic voices.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon">
+                                <i class="fas fa-wave-square accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Voice Print Analysis:</strong> Compare voice characteristics against known patterns of AI-generated content to determine authenticity with high accuracy.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Multiple Model Detection:</strong> Our detection system is trained on different types of deepfake generation methods to ensure comprehensive protection.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <h5 class="section-title">Fantastic Features</h5>
+                
+                <div class="features-grid">
+                    <div class="grid-item">
+                        <i class="fas fa-bolt"></i>
+                        <p>Real-Time Voice Analyzer</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-database"></i>
+                        <p>Comprehensive Model Database</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-file-export"></i>
+                        <p>Multi-format Export</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-lock"></i>
+                        <p>Private and Data-Friendly</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-signal"></i>
+                        <p>AI Tool Integration</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-language"></i>
+                        <p>Support for Multiple Languages</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 2: Processing -->
+        <div id="processingScreen" class="screen">
+            <div class="upload-area">
+                <div class="processing-animation">
+                    <div class="spinner"></div>
+                    <h3>Processing...</h3>
+                </div>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="feature-box">
+                        <h5>Detect deep fake audio easily in seconds</h5>
+                        <div class="small-label">Upload audio</div>
+                        <p>Select the audio file to see if it's real or fake. Our system can detect AI-generated or manipulated audio.</p>
+                        
+                        <div class="d-flex align-items-center mb-3 mt-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-check accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0">The most advanced technology to identify artificial voice patterns and inconsistencies typically not present in real human speech.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon">
+                                <i class="fas fa-check accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0">Fast analysis with detailed reports showing confidence scores and specific markers that indicate manipulation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-check accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0">Export detailed reports for documentation, legal proceedings, or further investigation of suspicious content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="feature-box">
+                        <h5>Analyze audio at one place</h5>
+                        
+                        <div class="d-flex align-items-center mb-3 mt-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-microphone accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Frequency Analysis:</strong> Our system examines the frequency patterns in audio to identify unnatural transitions or artifacts common in synthetic voices.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon">
+                                <i class="fas fa-wave-square accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Voice Print Analysis:</strong> Compare voice characteristics against known patterns of AI-generated content to determine authenticity with high accuracy.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Multiple Model Detection:</strong> Our detection system is trained on different types of deepfake generation methods to ensure comprehensive protection.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <h5 class="section-title">Fantastic Features</h5>
+                
+                <div class="features-grid">
+                    <div class="grid-item">
+                        <i class="fas fa-bolt"></i>
+                        <p>Real-Time Voice Analyzer</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-database"></i>
+                        <p>Comprehensive Model Database</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-file-export"></i>
+                        <p>Multi-format Export</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-lock"></i>
+                        <p>Private and Data-Friendly</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-signal"></i>
+                        <p>AI Tool Integration</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-language"></i>
+                        <p>Support for Multiple Languages</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 3: Results -->
+        <div id="resultsScreen" class="screen">
+            <div class="upload-area p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="result-box">
+                            <h5>Real audio</h5>
+                            <p class="mb-0" id="realAudioScore">98%</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="result-box">
+                            <h5>Deep fake audio</h5>
+                            <p class="mb-0" id="fakeAudioScore">2%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="upload-btn me-3">Download Report</button>
+                    <button class="upload-btn" id="newAnalysisBtn">New Analysis</button>
+                </div>
+            </div>
+            
+            <div class="row mb-4 mt-4">
+                <div class="col-md-12">
+                    <div class="feature-box">
+                        <h5>Analysis Summary</h5>
+                        <p>Detailed breakdown of the audio analysis results:</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered analysis-table">
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>Value</th>
+                                        <th>Probability</th>
+                                        <th>Indication</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Frequency Coherence</td>
+                                        <td>0.92</td>
+                                        <td>91.6%</td>
+                                        <td>Natural</td>
+                                    </tr>
+                                    <tr class="highlight">
+                                        <td>Spectral Artifacts</td>
+                                        <td>0.03</td>
+                                        <td>97.3%</td>
+                                        <td>Natural</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Voice Patterns</td>
+                                        <td>0.94</td>
+                                        <td>94.2%</td>
+                                        <td>Natural</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Breathing Patterns</td>
+                                        <td>0.89</td>
+                                        <td>89.1%</td>
+                                        <td>Natural</td>
+                                    </tr>
+                                    <tr class="highlight">
+                                        <td>Background Noise Consistency</td>
+                                        <td>0.95</td>
+                                        <td>95.4%</td>
+                                        <td>Natural</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="feature-box">
+                        <h5>Analyze audio at one place</h5>
+                        
+                        <div class="d-flex align-items-center mb-3 mt-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-microphone accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Frequency Analysis:</strong> Our system examines the frequency patterns in audio to identify unnatural transitions or artifacts common in synthetic voices.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon">
+                                <i class="fas fa-wave-square accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Voice Print Analysis:</strong> Compare voice characteristics against known patterns of AI-generated content to determine authenticity with high accuracy.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt accent-blue"></i>
+                            </div>
+                            <div class="feature-content">
+                                <p class="mb-0"><strong>Multiple Model Detection:</strong> Our detection system is trained on different types of deepfake generation methods to ensure comprehensive protection.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <h5 class="section-title">Fantastic Features</h5>
+                
+                <div class="features-grid">
+                    <div class="grid-item">
+                        <i class="fas fa-bolt"></i>
+                        <p>Real-Time Voice Analyzer</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-database"></i>
+                        <p>Comprehensive Model Database</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-file-export"></i>
+                        <p>Multi-format Export</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-lock"></i>
+                        <p>Private and Data-Friendly</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-signal"></i>
+                        <p>AI Tool Integration</p>
+                    </div>
+                    <div class="grid-item">
+                        <i class="fas fa-language"></i>
+                        <p>Support for Multiple Languages</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>About Us</h6>
+                    <p>We are dedicated to fighting misinformation through advanced audio analysis technology.</p>
+                </div>
+                <div class="col-md-4">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Connect</h6>
+                    <div>
+                        <i class="fab fa-twitter me-2"></i>
+                        <i class="fab fa-facebook me-2"></i>
+                        <i class="fab fa-linkedin me-2"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <p>© 2025 Deepfake Detector. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // File upload event
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                // Show processing screen
+                showScreen('processingScreen');
+                
+                // Simulate processing (3 seconds)
+                setTimeout(function() {
+                    // Show results screen
+                    showScreen('resultsScreen');
+                    
+                    // Generate random scores for demo
+                    const realScore = Math.floor(Math.random() * 50) + 50;
+                    const fakeScore = 100 - realScore;
+                    
+                    document.getElementById('realAudioScore').textContent = realScore + '%';
+                    document.getElementById('fakeAudioScore').textContent = fakeScore + '%';
+                    
+                    // Update table based on scores
+                    updateAnalysisTable(realScore > fakeScore);
+                }, 3000);
+            }
+        });
+        
+        // New analysis button event
+        document.getElementById('newAnalysisBtn').addEventListener('click', function() {
+            showScreen('uploadScreen');
+            document.getElementById('fileInput').value = '';
+        });
+        
+        // Function to show a specific screen
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(function(screen) {
+                screen.classList.remove('active-screen');
+            });
+            
+            // Show the requested screen
+            document.getElementById(screenId).classList.add('active-screen');
+        }
+        
+        // Function to update the analysis table
+        function updateAnalysisTable(isReal) {
+            const tableRows = document.querySelectorAll('.analysis-table tbody tr');
+            
+            // Reset highlighting
+            tableRows.forEach(function(row) {
+                row.classList.remove('highlight');
+            });
+            
+            // Add highlighting to 2 random rows
+            const randomIndexes = [];
+            while (randomIndexes.length < 2) {
+                const randomIndex = Math.floor(Math.random() * tableRows.length);
+                if (!randomIndexes.includes(randomIndex)) {
+                    randomIndexes.push(randomIndex);
+                }
+            }
+            
+            randomIndexes.forEach(function(index) {
+                tableRows[index].classList.add('highlight');
+            });
+            
+            // Update values based on if the audio is real or fake
+            tableRows.forEach(function(row, index) {
+                const valueCell = row.cells[1];
+                const probCell = row.cells[2];
+                const indicationCell = row.cells[3];
+                
+                if (isReal) {
+                    // For real audio
+                    const value = (Math.random() * 0.15 + 0.85).toFixed(2);
+                    const prob = (parseFloat(value) * 100).toFixed(1) + '%';
+                    valueCell.textContent = value;
+                    probCell.textContent = prob;
+                    indicationCell.textContent = 'Natural';
+                } else {
+                    // For fake audio
+                    if (index === 0 || index === 2) {
+                        // Some features show natural patterns
+                        const value = (Math.random() * 0.15 + 0.85).toFixed(2);
+                        const prob = (parseFloat(value) * 100).toFixed(1) + '%';
+                        valueCell.textContent = value;
+                        probCell.textContent = prob;
+                        indicationCell.textContent = 'Natural';
+                    } else {
+                        // Other features show synthetic patterns
+                        const value = (Math.random() * 0.3 + 0.1).toFixed(2);
+                        const probFake = (parseFloat(1 - value) * 100).toFixed(1) + '%';
+                        valueCell.textContent = value;
+                        probCell.textContent = probFake;
+                        indicationCell.textContent = 'Synthetic';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

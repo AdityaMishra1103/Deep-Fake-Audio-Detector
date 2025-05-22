@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - DeepFake Audio Detector</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4285F4;
+            --dark-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --light-purple: #e6e6fa;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .nav-link {
+            color: #333;
+            margin: 0 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            border-color: var(--dark-blue);
+        }
+        
+        .hero-section {
+            background: #fff;
+            color: #333;
+            padding: 80px 0;
+            position: relative;
+            border-radius: 0;
+            overflow: hidden;
+            margin-bottom: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background-color: var(--light-blue);
+        }
+        
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .hero-section p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+        
+        .about-section {
+            padding: 80px 0;
+            background-color: #fff;
+        }
+        
+        .section-heading {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-heading:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 15px auto 0;
+        }
+        
+        .mission-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            height: 100%;
+            border-top: 3px solid var(--primary-color);
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .mission-icon {
+            font-size: 36px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .mission-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .team-section {
+            padding: 80px 0;
+            background-color: var(--light-blue);
+        }
+        
+        .team-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .team-info {
+            padding: 20px;
+        }
+        
+        .team-info h4 {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .team-info p.role {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .team-info p.bio {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .social-icons {
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            color: #666;
+            margin-right: 15px;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        .timeline-section {
+            padding: 80px 0;
+            background-color: #fff;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--light-blue);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid var(--primary-color);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::after {
+            right: -13px;
+        }
+        
+        .right::after {
+            left: -13px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .timeline-content h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .timeline-content .date {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .stats-section {
+            padding: 60px 0;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .stats-item {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stats-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .stats-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .values-section {
+            padding: 80px 0;
+            background-color: #fff;
+        }
+        
+        .value-card {
+            background-color: var(--light-blue);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .value-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .value-card h4 {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .partners-section {
+            padding: 80px 0;
+            background-color: var(--light-blue);
+        }
+        
+        .partner-logo {
+            height: 80px;
+            margin: 15px 20px;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+        
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+        
+        .cta-section {
+            padding: 80px 0;
+            background-color: #fff;
+            text-align: center;
+        }
+        
+        .cta-box {
+            background-color: var(--light-purple);
+            border-radius: 10px;
+            padding: 50px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .cta-box h2 {
+            margin-bottom: 20px;
+        }
+        
+        .cta-box p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .cta-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(66, 133, 244, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .cta-btn:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(66, 133, 244, 0.4);
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 40px 0 20px;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h5 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .footer-link {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 18px;
+            }
+            
+            .left::after, .right::after {
+                left: 18px;
+            }
+            
+            .right {
+                left: 0%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt"></i> DFA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index4.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/feature.html">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact.html">Contact</a>
+                    </li>
+                </ul>
+                <button class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1>About DeepFake Audio Detector</h1>
+            <p>We're on a mission to protect authenticity in the digital age through cutting-edge deepfake detection technology.</p>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="about-section">
+        <div class="container">
+            <h2 class="section-heading">Our Story</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>Founded in 2022, DeepFake Audio Detector (DFA) emerged as a response to the growing threat of synthetic media. Our team of AI researchers, security experts, and audio engineers came together with a shared concern: as voice synthesis technology became more accessible and realistic, the potential for misuse grew exponentially.</p>
+                    <p>What began as a research project at MIT's Media Lab quickly evolved into a comprehensive solution for authenticating digital audio. We recognized that traditional methods of verification were becoming obsolete in the face of increasingly sophisticated deepfake technology.</p>
+                </div>
+                <div class="col-lg-6">
+                    <p>Through collaborative research and development, we pioneered a multi-layered approach to audio verification that combines acoustic forensics, machine learning, and biometric voice analysis to detect even the most convincing synthetic audio.</p>
+                    <p>Today, DFA serves individuals, media organizations, legal institutions, and enterprises worldwide, providing tools to verify audio authenticity with confidence. As technology evolves, so do we—constantly refining our algorithms to stay ahead of emerging deepfake techniques.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section class="values-section">
+        <div class="container">
+            <h2 class="section-heading">Our Mission & Vision</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p>To protect the integrity of digital communication by providing accessible, accurate audio verification technology that empowers users to distinguish between authentic and synthetic content.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p>A world where digital trust is preserved through technological innovation, where people can confidently navigate digital media knowing they have the tools to verify authenticity.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Our Goal</h3>
+                        <p>To make deepfake detection technology universally accessible, continuously advancing our methods to combat emerging threats while advocating for media literacy and digital responsibility.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Values Section -->
+    <section class="values-section" style="background-color: var(--light-blue);">
+        <div class="container">
+            <h2 class="section-heading">Our Core Values</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h4>Integrity</h4>
+                        <p>We uphold the highest standards of honesty and ethical conduct in all we do, ensuring our technology serves truth above all.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h4>Privacy</h4>
+                        <p>We respect and protect user data, designing our systems with privacy-first principles and transparent data practices.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h4>Innovation</h4>
+                        <p>We continuously push the boundaries of what's possible in deepfake detection, staying ahead of emerging techniques.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Accessibility</h4>
+                        <p>We believe verification tools should be available to everyone, creating solutions that are both powerful and user-friendly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-heading">Meet Our Team</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-card">
+                        <img src="/api/placeholder/400/400" alt="Team Member" class="team-img">
+                        <div class="team-info">
+                            <h4>Dr. Sarah Chen</h4>
+                            <p class="role">CEO & Founder</p>
+                            <p class="bio">Former MIT researcher specializing in audio forensics with 15+ years of experience in signal processing and AI.</p>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-card">
+                        <img src="/api/placeholder/400/400" alt="Team Member" class="team-img">
+                        <div class="team-info">
+                            <h4>Dr. Michael Johnson</h4>
+                            <p class="role">CTO</p>
+                            <p class="bio">AI expert with background in machine learning and neural network architectures for audio classification.</p>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-card">
+                        <img src="/api/placeholder/400/400" alt="Team Member" class="team-img">
+                        <div class="team-info">
+                            <h4>Alicia Rodriguez</h4>
+                            <p class="role">Head of Product</p>
+                            <p class="bio">Product strategist focused on creating intuitive user experiences for complex security technologies.</p>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-dribbble"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-card">
+                        <img src="/api/placeholder/400/400" alt="Team Member" class="team-img">
+                        <div class="team-info">
+                            <h4>James Park</h4>
+                            <p class="role">Lead Engineer</p>
+                            <p class="bio">Full-stack developer with expertise in building scalable, secure applications for media analysis.</p>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stats-item">
+                        <div class="stats-number">97%</div>
+                        <div class="stats-text">Detection Accuracy</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-item">
+                        <div class="stats-number">500K+</div>
+                        <div class="stats-text">Files Analyzed</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-item">
+                        <div class="stats-number">35+</div>
+                        <div class="stats-text">Countries Served</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-item">
+                        <div class="stats-number">12</div>
+                        <div class="stats-text">Research Papers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Journey Section -->
+    <section class="timeline-section">
+        <div class="container">
+            <h2 class="section-heading">Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>The Beginning</h3>
+                        <span class="date">January 2022</span>
+                        <p>Research project initiated at MIT Media Lab focused on audio authentication techniques.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>First Algorithm</h3>
+                        <span class="date">July 2022</span>
+                        <p>Developed our first proprietary algorithm with 89% accuracy in detecting synthetic voices.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Company Founded</h3>
+                        <span class="date">January 2023</span>
+                        <p>DFA officially launched as a company with seed funding from leading tech investors.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Beta Release</h3>
+                        <span class="date">August 2023</span>
+                        <p>Released beta version of our platform to select partners and academic institutions.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Public Launch</h3>
+                        <span class="date">March 2024</span>
+                        <p>Official public launch of DeepFake Audio Detector with enterprise and individual plans.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Today</h3>
+                        <span class="date">April 2025</span>
+                        <p>Serving users worldwide with continuous improvements to our detection technology.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners-section">
+        <div class="container">
+            <h2 class="section-heading">Our Partners & Collaborators</h2>
+            <div class="text-center">
+                <img src="/api/placeholder/160/80" alt="Partner Logo" class="partner-logo">
+                <img src="/api/placeholder/160/80" alt="Partner Logo" class="partner-logo">
+                <img src="/api/placeholder/160/80" alt="Partner Logo" class="partner-logo">
+                <img src="/api/placeholder/160/80" alt="Partner Logo" class="partner-logo">
+                <img src="/api/placeholder/160/80" alt="Partner Logo" class="partner-logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Ready to protect yourself against deepfakes?</h2>
+                <p>Join thousands of users who trust our technology to verify the authenticity of audio content.</p>
+                <a href="#" class="btn cta-btn">Try It Free</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h5>Our Product</h5>
+                    <a href="#" class="footer-link">Audio Verification</a>
+                    <a href="#" class="footer-link">Voice Analysis</a>
+                    <a href="#" class="footer-link">Download</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <a href="#" class="footer-link">Documentation</a>
+                    <a href="#" class="footer-link">API Reference</a>
+                    <a href="#" class="footer-link">Support</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Company</h5>
+                    <a href="#" class="footer-link">About Us</a>
+                    <a href="#" class="footer-link">Blog</a>
+                    <a href="#" class="footer-link">Careers</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Security</a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2025 DeepFake Detector. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

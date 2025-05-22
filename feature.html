@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - DeepFake Audio Detector</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4285F4;
+            --dark-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --light-purple: #e6e6fa;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .nav-link {
+            color: #333;
+            margin: 0 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            border-color: var(--dark-blue);
+        }
+        
+        .page-header {
+            background: #e8f0fe;
+            color: black;
+            padding: 60px 0;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .feature-section {
+            padding: 60px 0;
+            background-color: #fff;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            background-color: var(--light-blue);
+            color: var(--primary-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .feature-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .tech-section {
+            padding: 60px 0;
+            background-color: var(--light-blue);
+        }
+        
+        .tech-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tech-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .comparison-section {
+            padding: 60px 0;
+            background-color: #fff;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        
+        .comparison-table th {
+            background-color: var(--light-blue);
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .comparison-table .check {
+            color: #4CAF50;
+        }
+        
+        .comparison-table .times {
+            color: #F44336;
+        }
+        
+        .section-heading {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-heading:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 15px auto 0;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 40px 0 20px;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h5 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .footer-link {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .cta-section {
+            padding: 60px 0;
+            background-color: var(--light-purple);
+            text-align: center;
+        }
+        
+        .cta-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(66, 133, 244, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .cta-btn:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(66, 133, 244, 0.4);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt"></i> DFA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index4.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/feature.html">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact.html">Contact</a>
+                    </li>
+                </ul>
+                <button class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Powerful Features</h1>
+            <p class="lead">Discover how our advanced AI technology detects deep fake audio with exceptional accuracy</p>
+        </div>
+    </header>
+
+    <!-- Core Features Section -->
+    <section class="feature-section">
+        <div class="container">
+            <h2 class="section-heading">Core Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3 class="feature-title">Voice Authentication</h3>
+                        <p class="feature-desc">Our AI analyzes voice patterns, pitch variations, and speech rhythms to identify inconsistencies that indicate synthetic generation. The system verifies vocal biometrics against known patterns of authentic speech.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <h3 class="feature-title">Acoustic Analysis</h3>
+                        <p class="feature-desc">Examines frequency spectrums and acoustic properties to detect artifacts that are commonly present in synthetically generated audio. This includes background noise consistency, room acoustics, and sonic fingerprints.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="feature-title">AI Detection Models</h3>
+                        <p class="feature-desc">Leverages multiple neural networks trained on diverse datasets to identify specific artifacts from various deepfake generation methods. Our models are continuously updated to detect the latest manipulation techniques.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Two-factor Detection</h3>
+                        <p class="feature-desc">Combines multiple detection methods to provide a comprehensive analysis. This dual-layer approach significantly reduces false positives and ensures reliable detection across different deepfake generation techniques.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title">Fast Analysis</h3>
+                        <p class="feature-desc">Optimized algorithms provide detection results within seconds, allowing for real-time verification while maintaining high accuracy. Process multiple files in batches for efficient bulk analysis.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Live Threat Analysis</h3>
+                        <p class="feature-desc">Monitor audio in real-time for potential manipulation, making it ideal for live streaming, conferencing, and media monitoring applications. Receive instant alerts when suspicious patterns are detected.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="tech-section">
+        <div class="container">
+            <h2 class="section-heading">Technology Behind Detection</h2>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="tech-card">
+                        <div class="tech-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4>Neural Networks</h4>
+                        <p>Deep learning models specifically trained to identify synthetic audio patterns</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="tech-card">
+                        <div class="tech-icon">
+                            <i class="fas fa-fingerprint"></i>
+                        </div>
+                        <h4>Forensic Analysis</h4>
+                        <p>Audio fingerprinting techniques to detect manipulation traces</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="tech-card">
+                        <div class="tech-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>ML Algorithms</h4>
+                        <p>Advanced machine learning algorithms for pattern recognition</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="tech-card">
+                        <div class="tech-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h4>Cloud Processing</h4>
+                        <p>High-performance cloud infrastructure for real-time analysis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="section-heading">Compare Our Detection Technology</h2>
+            <div class="table-responsive">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Features</th>
+                            <th>DFA Solution</th>
+                            <th>Basic Detectors</th>
+                            <th>Manual Analysis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Real-time Analysis</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                        </tr>
+                        <tr>
+                            <td>AI-powered Detection</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Multi-layered Analysis</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Continuous Learning</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Detection Accuracy</td>
+                            <td>98.7%</td>
+                            <td>78.5%</td>
+                            <td>62.3%</td>
+                        </tr>
+                        <tr>
+                            <td>Processing Speed</td>
+                            <td>Seconds</td>
+                            <td>Minutes</td>
+                            <td>Hours</td>
+                        </tr>
+                        <tr>
+                            <td>Detailed Reports</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                        </tr>
+                        <tr>
+                            <td>API Integration</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                            <td><i class="fas fa-times times"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to start detecting deepfakes?</h2>
+            <p class="lead">Try our advanced analysis tools today and protect your audio integrity</p>
+            <a href="/index3.html" class="cta-btn">Get Started Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h5>Our Product</h5>
+                    <a href="#" class="footer-link">Audio Verification</a>
+                    <a href="#" class="footer-link">Voice Analysis</a>
+                    <a href="#" class="footer-link">Download</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <a href="#" class="footer-link">Documentation</a>
+                    <a href="#" class="footer-link">API Reference</a>
+                    <a href="#" class="footer-link">Support</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Company</h5>
+                    <a href="#" class="footer-link">About Us</a>
+                    <a href="#" class="footer-link">Blog</a>
+                    <a href="#" class="footer-link">Careers</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Security</a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2025 DeepFake Detector. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
